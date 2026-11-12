@@ -42,6 +42,11 @@
   .loading { position: fixed; inset: 0; display: grid; place-items: center; background: #0b1030; color: var(--muted); font-size: 13px; transition: opacity .7s; }
   .loading.done { opacity: 0; pointer-events: none; }
   body.still .ui { display: none; }
+  /* 嵌在别的网页里、还没拿到键盘焦点时的提示 */
+  .gate { position: absolute; left: 50%; top: 42%; translate: -50% -50%; padding: 12px 22px; border-radius: 999px; background: var(--accent); color: #1E2A5A;
+    font-weight: 700; font-size: 15px; box-shadow: 0 10px 30px rgba(0,0,0,.4); display: none; animation: gatePulse 1.6s ease-in-out infinite; }
+  .gate.on { display: block; }
+  @keyframes gatePulse { 50% { scale: 1.06; } }
   /* ---- 互动 ---- */
   .prompt { position: absolute; left: 0; top: 0; display: none; align-items: center; gap: 7px; padding: 6px 12px 6px 7px; border-radius: 999px;
     background: rgba(14, 13, 12, .72); border: 1px solid rgba(255,255,255,.18); font-size: 13px; white-space: nowrap; transform: translate(-50%, -100%); }
@@ -142,6 +147,7 @@
     <div class="pc-btns"><button type="button" class="primary" id="pcSave">下载明信片</button><button type="button" id="pcClose">不用了</button></div>
   </div>
   <button type="button" class="act" id="actBtn">互动</button>
+  <div class="gate" id="gate">点一下画面，开始玩</div>
   <div class="stick-ghost" id="ghost">移动</div>
   <div class="stick" id="stick"><i></i></div>
 </div>
@@ -171,6 +177,7 @@
     document.getElementById('pcSave').textContent = 'Download postcard';
     document.getElementById('pcClose').textContent = 'No thanks';
     document.getElementById('actBtn').textContent = 'Use';
+    document.getElementById('gate').textContent = 'Click the scene to start playing';
     document.getElementById('loading').textContent = 'Building the old street…';
   }
   if (matchMedia('(hover: none)').matches) document.body.classList.add('touch');
@@ -1361,6 +1368,68 @@ add(bossHead, new THREE.SphereGeometry(.42, 28, 20), orange);
 const bossNose = add(bossHead, new THREE.SphereGeometry(.03, 10, 8), pinkM, 0, -.07, .41, false);
 bossNose.scale.set(1.3, .8, .8);
 
+/* ---- 另外两桌的猫客人：坐着喝茶、看报纸，让茶室不那么空 ---- */
+const customers = [];
+function seatedCat(tx, tz, a, o) {
+  /* a：椅子在桌子哪一边；客人面向桌子 */
+  const chair = teaChairs.find(c => Math.abs(c.table.x - tx) < .01 && Math.abs(c.table.z - tz) < .01 && Math.abs(c.rot - (a + Math.PI)) < .01);
+  if (chair) chair.taken = true;
+  const g = new THREE.Group();
+  g.position.set(tx + Math.sin(a) * .7, G + .2, tz + Math.cos(a) * .7);
+  g.rotation.y = a + Math.PI;
+  g.scale.setScalar(1.08);
+  tea.add(g);
+  const furM = mat(o.fur, { r: .6 });
+  const whiteM = mat(0xF7F1E6, { r: .6 });
+  const shirtM = o.shirt ? mat(o.shirt, { r: .7 }) : furM;
+  const bodyMesh = add(g, new THREE.LatheGeometry(bodyProfile, 24), shirtM, 0, 0, 0);
+  bodyMesh.scale.z = .9;
+  [-1, 1].forEach(s => {
+    const leg = new THREE.Group(); leg.position.set(s * .15, .3, 0); leg.rotation.x = -1.45; g.add(leg);
+    add(leg, new THREE.CapsuleGeometry(.09, .1, 4, 10), furM, 0, -.08, 0);
+    const foot = add(leg, new THREE.SphereGeometry(.11, 12, 10), whiteM, 0, -.2, .03); foot.scale.set(1, .65, 1.35);
+    const arm = new THREE.Group(); arm.position.set(s * .29, .74, 0); arm.rotation.set(-1.05, 0, s * .2); g.add(arm);
+    add(arm, new THREE.CapsuleGeometry(.065, .16, 4, 10), furM, 0, -.15, 0);
+    add(arm, new THREE.SphereGeometry(.08, 12, 10), whiteM, 0, -.28, .02);
+  });
+  const hd = new THREE.Group(); hd.position.set(0, 1.2, .02); g.add(hd);
+  add(hd, new THREE.SphereGeometry(.42, 24, 18), furM);
+  [-1, 1].forEach(s => {
+    const ear = add(hd, new THREE.ConeGeometry(.15, .3, 14), furM, s * .25, .33, -.02);
+    ear.rotation.z = -s * .32;
+    const inner = add(ear, new THREE.ConeGeometry(.09, .2, 10), pinkM, 0, -.03, .06, false); inner.scale.z = .45;
+    if (o.closedEyes) {
+      add(hd, new THREE.TorusGeometry(.06, .015, 6, 12, Math.PI), lineM, s * .16, .01, .375, false);
+    } else {
+      const eye = add(hd, new THREE.SphereGeometry(.085, 16, 12), mat(o.eye, { r: .3 }), s * .16, .02, .355, false); eye.scale.set(1, 1.2, .45);
+      const pu = add(hd, new THREE.SphereGeometry(.048, 12, 10), mat(0x0d0d14, { r: .2 }), s * .16, .01, .385, false); pu.scale.set(.9, 1.2, .5);
+      add(hd, new THREE.SphereGeometry(.02, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff }), s * .16 - .025, .06, .41, false);
+    }
+    const ck = add(hd, new THREE.SphereGeometry(.055, 10, 8), pinkM, s * .26, -.09, .32, false); ck.scale.set(1, .55, .3);
+    const m = add(hd, new THREE.SphereGeometry(.07, 12, 10), whiteM, s * .05, -.115, .36, false); m.scale.set(1, .8, .7);
+  });
+  const ns = add(hd, new THREE.SphereGeometry(.028, 10, 8), pinkM, 0, -.07, .41, false); ns.scale.set(1.3, .8, .8);
+  /* 尾巴垂在椅子后面 */
+  const tc = new THREE.CatmullRomCurve3([new THREE.Vector3(0, .35, -.28), new THREE.Vector3(.05, .2, -.5), new THREE.Vector3(.12, -.05, -.55)]);
+  add(g, new THREE.TubeGeometry(tc, 12, .05, 8), furM);
+  if (o.bow) {
+    [-1, 1].forEach(s => { const b = add(hd, new THREE.ConeGeometry(.08, .14, 10), mat(o.bow, { r: .5 }), .2 + s * .08, .36, .05, false); b.rotation.z = s * Math.PI / 2; });
+    add(hd, new THREE.SphereGeometry(.035, 8, 6), mat(o.bow, { r: .5 }), .2, .36, .05, false);
+  }
+  if (o.paper) {
+    const pt = canvasTex(128, 96, (c, w, h) => {
+      c.fillStyle = '#efe8d8'; c.fillRect(0, 0, w, h);
+      c.fillStyle = '#222'; c.font = '700 16px "Microsoft YaHei"'; c.fillText('光华日报', 8, 20);
+      c.fillStyle = '#999'; for (let y = 30; y < h - 6; y += 7) c.fillRect(8, y, w - 16 - (y % 3) * 8, 3);
+    });
+    const paper = add(g, new THREE.BoxGeometry(.5, .36, .01), mat(0xffffff, { map: pt, r: .9, side: THREE.DoubleSide }), 0, .78, .42, false);
+    paper.rotation.x = -.35;
+  }
+  customers.push({ g, hd, seed: Math.random() * 6 });
+}
+seatedCat(-19.3, -4.0, Math.PI / 2, { fur: 0x8c8f99, eye: 0x7fd18b, shirt: 0xC9DDF0, paper: true });   // 灰猫阿伯，看报纸
+seatedCat(-19.3, -6.4, 0, { fur: 0xF4EEE4, eye: 0x7fb2f0, shirt: 0xF28DA0, bow: 0xC8423A, closedEyes: true });   // 白猫，戴红蝴蝶结
+
 /* ---------- 雨（只下在阿夜附近，省效能） ---------- */
 const RAIN = touch ? 1100 : 1800;
 const RAIN_R = 16;
@@ -1779,40 +1848,50 @@ ui.menuClose.addEventListener('click', () => { closeMenu(); say(L('好咯，慢�
 ui.menuOk.addEventListener('click', () => { if (picked.size) placeOrder([...TEA_MENU.filter(id => picked.has(id))]); });
 const BOSS_HEAD = new THREE.Vector3(-13.3, G + 2.35, -7.0);
 
-/* 上菜：挑离阿夜最近的空桌，一样一样端上去 */
-let serving = false, orderTimers = [];
+/* 点餐：老板先请阿夜找位子坐下；坐下以后菜才一样一样端到她面前 */
+let orderTimers = [];
 const tableFood = [];
-let lastOrder = [];
+let lastOrder = [], pendingOrder = null;
 function placeOrder(ids) {
   closeMenu();
+  pendingOrder = ids.slice();
+  bossServe = .7;
+  const names = ids.map(fname).join(L('、', ', '));
+  say(L(`好嘞！${names}～请先找个位子坐，马上端过去！`, `Got it: ${names}! Find a seat and I’ll bring it over.`), BOSS_HEAD, 3.2);
+  toast(L('找一张空椅子坐下，菜就会端上来', 'Sit on an empty chair and your food will arrive'), 3.2);
+}
+function serveToSeat(c) {
+  const ids = pendingOrder;
+  pendingOrder = null;
   orderTimers.forEach(clearTimeout);
-  const table = teaTables.filter(t => t.servable).sort((a, b) =>
-    Math.hypot(a.x - player.position.x, a.z - player.position.z) - Math.hypot(b.x - player.position.x, b.z - player.position.z))[0];
+  orderTimers = [];
   tableFood.forEach(g => scene.remove(g));
   tableFood.length = 0;
   lastOrder = ids.slice();
-  serving = true;
-  bossServe = .7;
-  const names = ids.map(fname).join(L('、', ', '));
-  say(L(`好嘞！${names}，马上端过去～`, `Coming right up: ${names}!`), BOSS_HEAD, 2.8);
-  const n = ids.length, r = n === 1 ? 0 : .28;
+  /* 菜摆在阿夜面前：靠她那一侧排一排，多于 3 样再往桌子中间排第二排 */
+  const a = c.rot - Math.PI;
+  const ux = Math.sin(a), uz = Math.cos(a);       // 桌心 → 椅子的方向
+  const px = Math.cos(a), pz = -Math.sin(a);      // 和它垂直，左右排开
+  const n = ids.length;
   ids.forEach((id, i) => {
+    const row = i < 3 ? 0 : 1, inRow = row ? n - 3 : Math.min(n, 3), k = row ? i - 3 : i;
+    const side = (k - (inRow - 1) / 2) * .21;
+    const fwd = row ? .02 : .26;
     orderTimers.push(setTimeout(() => {
-      const a = i / n * Math.PI * 2 + .4;
-      const g = serve(id, new THREE.Vector3(table.x + Math.sin(a) * r, G + .806, table.z + Math.cos(a) * r), .9, 99);
+      if (seated !== c) return;
+      const g = serve(id, new THREE.Vector3(c.table.x + ux * fwd + px * side, G + .806, c.table.z + uz * fwd + pz * side), .9, 99);
       tableFood.push(g);
       served.splice(served.indexOf(g), 1);
       const first = taste(id, true);
       ding(first ? [988, 1318] : [880]);
       hopT = .3;
       if (i === n - 1) {
-        serving = false;
         const done = tasted.size === FOOD_TOTAL;
         toast(done ? L('8 样美食全部尝过了！阿夜吃得好饱～', 'All 8 treats tasted! Malam is happily full~')
-          : L(`上齐了！找张椅子坐下来吧  (${tasted.size}/${FOOD_TOTAL})`, `All served! Grab a seat  (${tasted.size}/${FOOD_TOTAL})`), 3.2);
+          : L(`上齐了！慢慢吃，也可以拍照打卡  (${tasted.size}/${FOOD_TOTAL})`, `All served! Enjoy, and snap a check-in  (${tasted.size}/${FOOD_TOTAL})`), 3.2);
         say(L('菜上齐咯，慢慢吃！', 'All served, enjoy!'), BOSS_HEAD, 2);
       }
-    }, 900 + i * 750));
+    }, 700 + i * 650));
   });
 }
 
@@ -1849,8 +1928,10 @@ function sit(c) {
   camState.dist = camState.distT = Math.min(camState.distT, 3.4);
   placeCamera(0, true);
   ui.checkin.classList.add('on');
-  toast(tableFood.length && c.table.servable && tableFood[0] && Math.hypot(tableFood[0].position.x - c.table.x, tableFood[0].position.z - c.table.z) < .6
-    ? L('坐下来开动咯～拍一张打卡吧', 'Time to eat~ snap a check-in photo') : L('坐下来歇歇脚', 'Taking a little rest'), 2.2);
+  if (pendingOrder) {
+    say(L('来咯～慢慢吃！', 'Here it comes~'), BOSS_HEAD, 1.8);
+    serveToSeat(c);
+  } else toast(L('坐下来歇歇脚', 'Taking a little rest'), 2.2);
 }
 function standUp() {
   const c = seated;
@@ -2000,7 +2081,7 @@ const interactables = [
     label: () => L('来一盘炒粿条', 'Get char koay teow'), anchor: new THREE.Vector3(STALL.x + .4, G + 2.0, STALL.z + .7), act: orderCKT },
   { at: new THREE.Vector3(-24.45, 0, -1.6), r: 1.3, label: () => L('买一罐汽水', 'Buy a soda'), anchor: new THREE.Vector3(-24.45, G + 2.2, -1.9), act: buySoda }
 ];
-teaChairs.forEach(c => interactables.push({
+teaChairs.filter(c => !c.taken).forEach(c => interactables.push({
   at: new THREE.Vector3(c.x, 0, c.z), r: .82, chair: true,
   label: () => L('坐下', 'Sit down'), anchor: new THREE.Vector3(c.x, G + 1.5, c.z), act: () => sit(c)
 }));
@@ -2234,6 +2315,7 @@ function frame(_, testDt) {
   /* 茶室：吊扇慢慢转，老板轻轻点头 */
   teaFans.forEach(f => { f.rotation.y += dt * 3 * (motion || .3); });
   bossHead.rotation.z = Math.sin(t * 1.1) * .07 * motion;
+  customers.forEach(c => { c.hd.rotation.z = Math.sin(t * .8 + c.seed) * .06 * motion; c.hd.rotation.x = (Math.sin(t * .5 + c.seed) * .5 + .5) * .12 * motion; });
   boss.position.y = G + Math.abs(Math.sin(t * 1.1)) * .02 * motion;
   komtarTop.visible = (t % 1.6) < .9;
 
@@ -2274,8 +2356,17 @@ function frame(_, testDt) {
     ld.classList.add('done');
     setTimeout(() => ld.remove(), 900);
     window.__ready = true;
+    /* 载入好就把键盘焦点给画面；嵌在别的网页里拿不到焦点时，显示“点一下画面” */
+    canvas.focus({ preventScroll: true });
+    syncGate();
   }
 }
+const inFrame = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+const gateEl = document.getElementById('gate');
+function syncGate() { gateEl.classList.toggle('on', inFrame && !STILL && !document.hasFocus()); }
+window.addEventListener('focus', syncGate);
+window.addEventListener('blur', syncGate);
+canvas.addEventListener('focus', syncGate);
 renderer.setAnimationLoop(frame);
 window.__game = { player, camState, colliders, step: frame, hat, setHat, camera, camBlocks, near: () => near, doInteract, placeOrder, togglePick, sit, standUp, snap, teaChairs, tasted, tableFood, isMenuOpen: () => menuOpen, isSeated: () => !!seated };
 </script>

@@ -260,6 +260,8 @@
     frame.title = en() ? 'Malam in Penang' : '阿夜游槟城';
     frame.src = 'projects/penang-walk/index.html' + (en() ? '?lang=en' : '');
     frame.setAttribute('allow', 'fullscreen');
+    /* 载入后把键盘焦点交给小游戏，WASD 才能直接用 */
+    frame.addEventListener('load', function () { try { frame.contentWindow.focus(); } catch (e) { frame.focus(); } });
     view.appendChild(frame);
     view.classList.add('live');
     view.setAttribute('data-own-wheel', '');

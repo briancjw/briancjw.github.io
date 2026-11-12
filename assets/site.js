@@ -60,7 +60,9 @@
     }
     function open() {
       clearTimeout(timer);
-      if (document.querySelector('.nav.tuck')) return;
+      /* 导航收起时先让它出现，再打开下拉 */
+      var navEl = link.closest('.nav');
+      if (navEl) navEl.classList.remove('tuck');
       place();
       drop.classList.add('open');
       link.classList.add('open');
@@ -74,6 +76,18 @@
         link.setAttribute('aria-expanded', 'false');
       }, now ? 0 : 180);
     }
+    /* 点“作品”直接打开 / 关上下拉，不再跳到精选区（手机版用汉堡菜单，不拦） */
+    var desktop = window.matchMedia('(min-width: 761px)');
+    link.addEventListener('click', function (e) {
+      if (!desktop.matches) return;
+      e.preventDefault();
+      if (drop.classList.contains('open')) close(true); else open();
+    });
+    /* 网页刚载入时鼠标已经停在“作品”上，不会触发 pointerenter；动一下就打开 */
+    link.addEventListener('pointermove', function () { if (!drop.classList.contains('open')) open(); });
+    document.addEventListener('pointerdown', function (e) {
+      if (drop.classList.contains('open') && !drop.contains(e.target) && e.target !== link && !link.contains(e.target)) close(true);
+    });
     [link, drop].forEach(function (el) {
       el.addEventListener('pointerenter', open);
       el.addEventListener('pointerleave', function () { close(false); });
@@ -81,7 +95,10 @@
       el.addEventListener('focusout', function (e) { if (!drop.contains(e.relatedTarget) && e.relatedTarget !== link) close(false); });
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(true); });
-    window.addEventListener('scroll', function () { if (drop.classList.contains('open') && document.querySelector('.nav.tuck')) close(true); }, { passive: true });
+    window.addEventListener('scroll', function () {
+      var navEl = link.closest('.nav');
+      if (drop.classList.contains('open') && navEl && navEl.classList.contains('tuck')) close(true);
+    }, { passive: true });
     window.addEventListener('resize', function () { close(true); });
   }
 

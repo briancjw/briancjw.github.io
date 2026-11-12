@@ -1236,6 +1236,8 @@
     document.addEventListener('click', function (e) {
       var link = e.target.closest('a[href^="#"]');
       if (!link || link.getAttribute('href') === '#') return;
+      /* “作品”在电脑版是打开下拉，已经在 site.js 处理，这里不要再滑走 */
+      if (e.defaultPrevented) return;
       var target = document.querySelector(link.getAttribute('href'));
       if (!target) return;
       e.preventDefault();
