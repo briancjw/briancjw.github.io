@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>设计 · 样张 | Brian Chew</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="description" content="Brian Chew 的作品集：摄影、平面设计、影像和 Vibe Coding。USM 新媒体与设计在读。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="设计 · 样张 | Brian Chew">
+<meta property="og:description" content="Brian Chew 的作品集：摄影、平面设计、影像和 Vibe Coding。USM 新媒体与设计在读。">
+<meta property="og:url" content="https://briancjw.github.io/design.html">
+<meta property="og:image" content="https://briancjw.github.io/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/transition.js"></script>
+<style>
+  /* 工作台：深色切割垫上摊着一张张印出来的样张，四角有裁切线，下面有色票 */
+  :root { --mono: "DM Mono", ui-monospace, monospace; --paper: #f3efe6; --navy: #1E2A5A; --amber: #F5B83D; --teal: #3FB6A8; --pink: #F28DA0; }
+  body {
+    background-color: #0f1110;
+    background-image:
+      linear-gradient(rgba(170, 200, 180, .045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(170, 200, 180, .045) 1px, transparent 1px),
+      linear-gradient(rgba(170, 200, 180, .025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(170, 200, 180, .025) 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position: -1px -1px;
+  }
+  /* 顶部尺子 */
+  .ruler { position: absolute; top: 0; left: 0; right: 0; height: 26px; z-index: 1; pointer-events: none;
+    background:
+      repeating-linear-gradient(90deg, rgba(245,240,232,.35) 0 1px, transparent 1px 100px) 0 0 / 100% 14px no-repeat,
+      repeating-linear-gradient(90deg, rgba(245,240,232,.22) 0 1px, transparent 1px 50px) 0 0 / 100% 9px no-repeat,
+      repeating-linear-gradient(90deg, rgba(245,240,232,.12) 0 1px, transparent 1px 10px) 0 0 / 100% 5px no-repeat; }
+  .reg { position: absolute; width: 26px; height: 26px; color: rgba(245, 240, 232, .35); }
+  .reg svg { width: 100%; height: 100%; }
+
+  /* ---------- 首屏 ---------- */
+  .hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 30px; padding: 130px var(--gutter) 80px; overflow: hidden; }
+  .kicker { margin: 0 0 18px; font-family: var(--mono); font-size: 12px; letter-spacing: .18em; color: var(--accent); }
+  h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 220px; line-height: .84; }
+  html[lang="en"] h1 { font-size: 190px; }
+  h1 .k { display: inline-block; }
+  .hero-line { max-width: 430px; margin: 26px 0 0; font-size: 18px; line-height: 1.7; color: #cfcabf; }
+  /* 印刷色条 */
+  .cmyk { display: flex; margin-top: 36px; width: max-content; border: 1px solid rgba(245,240,232,.18); }
+  .cmyk span { width: 30px; height: 18px; }
+  .cmyk-meta { margin-top: 8px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .08em; }
+
+  /* 右边一叠样张，摊开在桌上 */
+  .desk { position: relative; height: 560px; }
+  .sheet {
+    position: absolute; padding: 14px 14px 34px; background: var(--paper); color: #222;
+    box-shadow: 0 26px 50px -18px rgba(0, 0, 0, .7), 0 2px 4px rgba(0,0,0,.3);
+    cursor: pointer; transition: translate .7s var(--expo), rotate .7s var(--expo), box-shadow .7s var(--expo), scale .7s var(--expo);
+  }
+  .sheet .img { background: var(--g); }
+  .sheet .slug { position: absolute; left: 14px; right: 14px; bottom: 11px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9.5px; letter-spacing: .06em; color: #6d675e; }
+  .sheet:hover, .sheet:focus-visible { rotate: 0deg !important; translate: 0 -14px; scale: 1.03; box-shadow: 0 50px 80px -24px rgba(0, 0, 0, .85); z-index: 10 !important; }
+
+  /* ---------- 区块标题 ---------- */
+  .block { position: relative; padding: 140px var(--gutter) 0; }
+  .block-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 30px; margin-bottom: 50px; padding-bottom: 18px; border-bottom: 1px dashed rgba(245, 240, 232, .2); }
+  .block-head small { display: block; margin-bottom: 12px; font-family: var(--mono); font-size: 12px; letter-spacing: .16em; color: var(--accent); }
+  .block-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 72px; line-height: .9; }
+  .block-head p { margin: 0; max-width: 360px; font-size: 14px; line-height: 1.7; color: var(--muted); text-align: right; }
+
+  /* ---------- Malam 主打项目 ---------- */
+  .ip { position: relative; display: grid; grid-template-columns: 1.55fr 1fr; gap: 22px; }
+  .ip-main, .ip-thumb { position: relative; overflow: hidden; border-radius: 4px; cursor: zoom-in; }
+  .ip-main { aspect-ratio: 3 / 2; }
+  .ip-main .img, .ip-thumb .img { position: absolute; inset: 0; background: var(--g); transition: scale 1.2s var(--expo); }
+  .ip-main:hover .img, .ip-thumb:hover .img { scale: 1.04; }
+  .ip-side { display: flex; flex-direction: column; gap: 22px; }
+  .ip-card { padding: 26px 26px 24px; border-radius: 4px; background: var(--navy); color: #f4ecdd; }
+  .ip-card h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 46px; line-height: .95; letter-spacing: .01em; }
+  .ip-card h3 span { display: block; margin-top: 6px; font-family: var(--body); font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--amber); }
+  .ip-card p { margin: 16px 0 0; font-size: 14px; line-height: 1.75; color: #cfd3e6; }
+  .ip-card dl { display: grid; grid-template-columns: 70px 1fr; gap: 8px 12px; margin: 18px 0 0; padding-top: 16px; border-top: 1px solid rgba(244, 236, 221, .16); font-size: 13px; }
+  .ip-card dt { color: #9aa3c7; }
+  .ip-card dd { margin: 0; }
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .swatch { padding: 0; border: 0; background: none; text-align: left; cursor: copy; }
+  .swatch span { display: block; height: 74px; border-radius: 3px; background: var(--c); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); transition: translate .5s var(--expo); }
+  .swatch:hover span { translate: 0 -4px; }
+  .swatch b { display: block; margin-top: 8px; font-size: 13px; font-weight: 500; }
+  .swatch code { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+  .ip-row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; }
+  .ip-thumb { aspect-ratio: 3 / 2; }
+  .ip-thumb em { position: absolute; left: 10px; bottom: 8px; font-family: var(--mono); font-size: 10.5px; font-style: normal; letter-spacing: .06em; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.7); }
+
+  /* ---------- 样张 ---------- */
+  .proofs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 110px 90px; padding: 20px 50px 0; }
+  /* 样张大小控制在一屏内看得完：直式约 430 宽，横式约 540 宽 */
+  .proof { position: relative; margin: 0; width: min(100%, var(--pw, 430px)); justify-self: center; }
+  .proof:nth-child(even) { margin-top: 120px; }
+  .proof-paper {
+    position: relative; padding: 34px 34px 22px; background: var(--paper); color: #26231f; rotate: var(--r, 0deg);
+    box-shadow: 0 40px 70px -26px rgba(0, 0, 0, .75), 0 2px 3px rgba(0, 0, 0, .3);
+    cursor: zoom-in; transition: rotate .8s var(--expo), translate .8s var(--expo), box-shadow .8s var(--expo);
+  }
+  .proof-paper:hover, .proof-paper:focus-visible { rotate: 0deg; translate: 0 -10px; box-shadow: 0 60px 90px -30px rgba(0, 0, 0, .85); }
+  /* 裁切线 */
+  .crop { position: absolute; width: 22px; height: 22px; border-color: #3a3631; border-style: solid; border-width: 0; }
+  .crop.tl { left: 10px; top: 10px; border-right-width: 1px; border-bottom-width: 1px; }
+  .crop.tr { right: 10px; top: 10px; border-left-width: 1px; border-bottom-width: 1px; }
+  .crop.bl { left: 10px; bottom: 74px; border-right-width: 1px; border-top-width: 1px; }
+  .crop.br { right: 10px; bottom: 74px; border-left-width: 1px; border-top-width: 1px; }
+  .proof .art { aspect-ratio: var(--ar); background: var(--g); }
+  .proof .slug { display: flex; justify-content: space-between; margin-top: 16px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: #6e685f; }
+  .palette { display: flex; margin-top: 10px; height: 26px; }
+  .palette button { flex: 1; padding: 0; border: 0; background: var(--c); cursor: copy; position: relative; transition: flex-grow .5s var(--expo); }
+  .palette button:hover { flex-grow: 1.8; }
+  .palette button::after { content: attr(data-hex); position: absolute; left: 6px; bottom: 5px; font-family: var(--mono); font-size: 9px; letter-spacing: .04em; color: var(--ink); opacity: 0; transition: opacity .3s; }
+  .palette button:hover::after { opacity: 1; }
+  .proof figcaption { padding: 22px 6px 0; }
+  .proof figcaption small { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--accent); }
+  .proof figcaption b { display: block; margin: 6px 0 6px; font-size: 24px; font-weight: 500; }
+  .proof figcaption p { margin: 0; max-width: 460px; font-size: 14.5px; line-height: 1.7; color: var(--muted); }
+  .proof .stamp { position: absolute; right: -16px; top: -18px; z-index: 2; padding: 6px 10px; border: 2px solid #c8372d; border-radius: 3px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .12em; color: #c8372d; background: rgba(243,239,230,.9); rotate: 8deg; }
+  .end-note { margin: 150px var(--gutter) 120px; text-align: center; font-family: var(--mono); font-size: 12px; letter-spacing: .14em; color: var(--muted); }
+  .end-note::before, .end-note::after { content: "✂ - - - - - - - - - - - -"; margin: 0 14px; opacity: .45; }
+
+  /* ---------- 查看大图 ---------- */
+  .viewer { display: grid; grid-template-columns: minmax(0, 1fr) 340px; height: 100%; }
+  .v-stage { display: flex; align-items: center; justify-content: center; min-width: 0; padding: 56px 40px 56px 100px; }
+  .v-img { width: 100%; height: 100%; background: var(--g); }
+  .v-info { display: flex; flex-direction: column; justify-content: flex-end; gap: 18px; padding: 90px 40px 56px 30px; border-left: 1px solid var(--line); }
+  .v-info small { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--accent); }
+  .v-info h3 { margin: 0; font-size: 28px; font-weight: 500; line-height: 1.25; }
+  .v-info p { margin: 0; font-size: 14.5px; line-height: 1.75; color: #cfcabf; }
+  .v-info .palette { height: 34px; }
+  .v-count { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .v-nav { position: fixed; top: 50%; z-index: 4; width: 52px; height: 52px; margin-top: -26px; border-radius: 50%; border: 1px solid var(--line); background: rgba(255,255,255,.05); font-size: 20px; cursor: pointer; transition: background .3s, color .3s; }
+  .v-nav:hover { background: var(--text); color: var(--bg); }
+  .v-prev { left: 26px; } .v-next { right: 366px; }
+
+  /* ---------- 手机版 ---------- */
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 100px 16px 40px; min-height: 0; }
+    .cmyk span { width: 24px; }
+    h1 { font-size: 140px; }
+    html[lang="en"] h1 { font-size: 104px; }
+    .hero-line { font-size: 16px; }
+    .reg { display: none; }
+    /* 桌上的样张整体缩小 */
+    .desk { width: 166%; height: 560px; transform: scale(.6); transform-origin: 0 0; margin-bottom: -224px; }
+    .block { padding: 80px 16px 0; }
+    .block-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 30px; }
+    .block-head h2 { font-size: 48px; }
+    .block-head p { text-align: left; }
+    .ip { grid-template-columns: 1fr; gap: 14px; }
+    .ip-card h3 { font-size: 38px; }
+    .swatch span { height: 54px; }
+    .ip-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .ip-row .ip-thumb:last-child { grid-column: span 2; }
+    .proofs { grid-template-columns: 1fr; gap: 70px; padding: 10px 0 0; }
+    .proof, .proof:nth-child(even) { margin-top: 0; width: 100%; }
+    .proof-paper { padding: 20px 20px 16px; }
+    .crop.bl, .crop.br { bottom: 64px; }
+    .proof .stamp { right: -4px; }
+    .end-note { margin: 90px 16px 70px; }
+    .end-note::before, .end-note::after { content: none; }
+    .viewer { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+    .v-stage { padding: 70px 12px 10px; }
+    .v-info { padding: 14px 16px 84px; border-left: 0; border-top: 1px solid var(--line); gap: 10px; }
+    .v-info h3 { font-size: 22px; }
+    .v-nav { top: auto; bottom: 20px; margin-top: 0; }
+    .v-prev { left: 16px; } .v-next { right: 16px; }
+  }
+
+  .toast { position: fixed; left: 50%; bottom: 34px; z-index: 60; padding: 10px 16px; border-radius: 999px; background: var(--text); color: var(--bg); font-family: var(--mono); font-size: 12px; translate: -50% 20px; opacity: 0; transition: opacity .3s, translate .5s var(--expo); pointer-events: none; }
+  .toast.show { opacity: 1; translate: -50% 0; }
+</style>
+</head>
+<body data-page="design" data-title-zh="设计 · 样张 | Brian Chew" data-title-en="Design · Proofs | Brian Chew">
+<main>
+  <section class="hero">
+    <div class="ruler" aria-hidden="true"></div>
+    <div class="reg" style="left:22px;top:100px" aria-hidden="true"><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="7" fill="none" stroke="currentColor"/><path d="M13 0v26M0 13h26" stroke="currentColor"/></svg></div>
+    <div class="reg" style="right:22px;bottom:30px" aria-hidden="true"><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="7" fill="none" stroke="currentColor"/><path d="M13 0v26M0 13h26" stroke="currentColor"/></svg></div>
+    <div>
+      <p class="kicker" data-i18n="kicker">02 · 样张 PROOFS</p>
+      <h1 data-split data-i18n="title">设计</h1>
+      <p class="hero-line" data-i18n="line">海报、菜单、社媒广告和原创 IP。每一件都先印成样张，看颜色、看排版，再交出去。</p>
+      <div class="cmyk" aria-hidden="true">
+        <span style="background:#00a3e0"></span><span style="background:#e5007e"></span><span style="background:#ffe600"></span><span style="background:#1a1a1a"></span>
+        <span style="background:#1E2A5A"></span><span style="background:#F5B83D"></span><span style="background:#3FB6A8"></span><span style="background:#F28DA0"></span>
+        <span style="background:#e4e0d8"></span><span style="background:#b9b4aa"></span><span style="background:#7d786f"></span><span style="background:#45413b"></span>
+      </div>
+      <p class="cmyk-meta" data-i18n="cmykMeta">C · M · Y · K ／ MALAM 品牌色 ／ 灰阶</p>
+    </div>
+    <div class="desk" id="desk" aria-label="桌上的样张"></div>
+  </section>
+
+  <section class="block" id="malam">
+    <div class="block-head">
+      <div><small data-i18n="ipKicker">主打项目 · FEATURED</small><h2 data-i18n="ipTitle">原创 IP 全案</h2></div>
+      <p data-i18n="ipNote">点任一张图看大图；点色块可以复制色号。</p>
+    </div>
+    <div class="ip">
+      <div class="ip-main" data-v="ip-0" tabindex="0" role="button"><div class="img" style="--g:url(assets/ip/malam-01-cover.jpg) center/cover"></div></div>
+      <div class="ip-side">
+        <div class="ip-card">
+          <h3>MALAM<span data-i18n="ipName">阿夜 · 槟城夜猫</span></h3>
+          <p data-i18n="ipAbout">一只白天补眠、夜里探店的槟城夜猫。用娘惹花砖、老店屋和宵夜文化，做出带有槟城味道的原创 IP：角色设定、三视图、表情贴纸、平面视觉和生活周边。</p>
+          <dl>
+            <dt data-i18n="dtRole">负责</dt><dd data-i18n="ddRole">概念、角色设定、视觉系统、AI 辅助出图与整理</dd>
+            <dt data-i18n="dtOut">产出</dt><dd data-i18n="ddOut">主视觉、三视图、贴纸、印刷物、周边</dd>
+          </dl>
+        </div>
+        <div class="swatches" id="ipSwatches"></div>
+      </div>
+      <div class="ip-row" id="ipRow"></div>
+    </div>
+  </section>
+
+  <section class="block" id="proofs">
+    <div class="block-head">
+      <div><small data-i18n="pKicker">样张 · PROOFS</small><h2 data-i18n="pTitle">平面设计</h2></div>
+      <p data-i18n="pNote">下面的色票是网页从每张作品里自动取出来的主要颜色。</p>
+    </div>
+    <div class="proofs" id="proofList"></div>
+  </section>
+  <p class="end-note" data-i18n="endNote">更多作品陆续加入</p>
+</main>
+
+<dialog class="modal" id="viewer" aria-label="作品大图">
+  <button class="modal-close" type="button" data-close aria-label="关闭">×</button>
+  <div class="viewer">
+    <div class="v-stage" id="vStage"><div class="v-img" id="vImg" role="img"></div></div>
+    <div class="v-info">
+      <span class="v-count" id="vCount"></span>
+      <small id="vTag"></small>
+      <h3 id="vTitle"></h3>
+      <p id="vText"></p>
+      <div class="palette" id="vPalette"></div>
+    </div>
+  </div>
+  <button class="v-nav v-prev" type="button" id="vPrev" aria-label="上一张">←</button>
+  <button class="v-nav v-next" type="button" id="vNext" aria-label="下一张">→</button>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  window.PAGE_EN = {
+    kicker: '02 · PROOFS',
+    title: 'DESIGN',
+    line: 'Posters, menus, social ads and an original IP. Every piece gets printed as a proof first, to check the colour and the layout before it goes out.',
+    cmykMeta: 'C · M · Y · K / MALAM BRAND / GREYS',
+    ipKicker: 'FEATURED PROJECT',
+    ipTitle: 'Original IP',
+    ipNote: 'Click any image to enlarge; click a swatch to copy its hex.',
+    ipName: 'The Penang Night Cat',
+    ipAbout: 'A Penang night cat who naps by day and hunts for supper by night. Built from Peranakan tiles, old shophouses and late-night food culture: character design, turnaround, sticker set, print graphics and merchandise.',
+    dtRole: 'Role', ddRole: 'Concept, character design, visual system, AI-assisted artwork and curation',
+    dtOut: 'Output', ddOut: 'Key visual, turnaround, stickers, print, merchandise',
+    pKicker: 'PROOFS',
+    pTitle: 'Graphic design',
+    pNote: 'The colour strips are the main colours this page samples from each piece automatically.',
+    endNote: 'More work on the way'
+  };
+</script>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  var all = Site.all;
+  var en = function () { return Site.lang === 'en'; };
+  var motion = typeof gsap !== 'undefined' && !Site.calm;
+
+  var BRAND = [
+    { hex: '#1E2A5A', zh: '深夜蓝', en: 'Midnight' },
+    { hex: '#F5B83D', zh: '暖琥珀', en: 'Amber' },
+    { hex: '#3FB6A8', zh: '娘惹青', en: 'Nyonya teal' },
+    { hex: '#F28DA0', zh: '花砖粉', en: 'Tile pink' }
+  ];
+  var IP = [
+    { src: 'assets/ip/malam-01-cover.jpg', zh: '主视觉', en: 'Key visual' },
+    { src: 'assets/ip/malam-03-profile.jpg', zh: '角色设定', en: 'Character profile' },
+    { src: 'assets/ip/malam-02-turnaround.jpg', zh: '三视图', en: 'Turnaround' },
+    { src: 'assets/ip/malam-04-stickers.jpg', zh: '表情贴纸', en: 'Sticker set' },
+    { src: 'assets/ip/malam-05-print.jpg', zh: '平面视觉', en: 'Print graphics' },
+    { src: 'assets/ip/malam-06-merch.jpg', zh: '生活周边', en: 'Merchandise' }
+  ];
+  var WORKS = [
+    { src: 'assets/works/design-code-poster.jpg', w: 543, h: 769, r: -1.6, tag: 'POSTER',
+      zh: ['电影海报', '《No.3 CODE》：人物与夜色城市合成，用红色片名营造悬疑感。'],
+      en: ['Film poster', 'No.3 CODE: a figure composited into the city at night, with a red title for suspense.'] },
+    { src: 'assets/works/design-macaron.jpg', w: 756, h: 945, r: 1.2, tag: 'POSTER',
+      zh: ['甜品海报', '马卡龙时刻：柔和的粉彩配色，配上中英文标题和手绘小插图。'],
+      en: ['Dessert poster', 'Macaron Moment: a soft pastel palette with bilingual titles and small hand-drawn illustrations.'] },
+    { src: 'assets/works/design-sushi-menu.jpg', w: 707, h: 1000, r: .9, tag: 'MENU',
+      zh: ['菜单设计', 'Sushi Blast 五组套餐，用卡片和日式浪纹背景整理成一眼看懂的菜单。'],
+      en: ['Menu design', 'Five Sushi Blast set meals, organised into cards on a Japanese wave background so the menu reads at a glance.'] },
+    { src: 'assets/works/design-wms-ad.jpg', w: 846, h: 710, r: -1.1, tag: 'SOCIAL AD', stamp: 'INFIDAWN',
+      zh: ['社媒广告', 'INFIDAWN 任职期间，为 ClicksDone 仓储管理系统做的产品宣传图，用大标题和三条重点说明卖点。'],
+      en: ['Social media ad', 'Made at INFIDAWN: a product ad for the ClicksDone warehouse management system, with a bold headline and three key selling points.'] }
+  ];
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  /* ---------- 色票：从图片里取主要颜色 ---------- */
+  function hex(r, g, b) { return '#' + [r, g, b].map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join('').toUpperCase(); }
+  function ink(r, g, b) { return (r * .299 + g * .587 + b * .114) > 150 ? '#1a1a1a' : '#ffffff'; }
+  function palette(src, n) {
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () {
+        var c = document.createElement('canvas');
+        c.width = 60; c.height = 60;
+        var x = c.getContext('2d', { willReadFrequently: true });
+        x.drawImage(img, 0, 0, 60, 60);
+        var d = x.getImageData(0, 0, 60, 60).data, bins = {};
+        for (var i = 0; i < d.length; i += 4) {
+          var k = (d[i] >> 4) + ',' + (d[i + 1] >> 4) + ',' + (d[i + 2] >> 4);
+          var b = bins[k] || (bins[k] = { n: 0, r: 0, g: 0, b: 0 });
+          b.n++; b.r += d[i]; b.g += d[i + 1]; b.b += d[i + 2];
+        }
+        var list = Object.keys(bins).map(function (k) { var b = bins[k]; return { n: b.n, r: Math.round(b.r / b.n), g: Math.round(b.g / b.n), b: Math.round(b.b / b.n) }; })
+          .sort(function (a, b) { return b.n - a.n; });
+        var out = [];
+        list.forEach(function (c) {
+          if (out.length >= n) return;
+          var far = out.every(function (o) { return Math.abs(o.r - c.r) + Math.abs(o.g - c.g) + Math.abs(o.b - c.b) > 70; });
+          if (far) out.push(c);
+        });
+        resolve(out.map(function (c) { return { hex: hex(c.r, c.g, c.b), ink: ink(c.r, c.g, c.b) }; }));
+      };
+      img.onerror = function () { resolve([]); };
+      img.src = src;
+    });
+  }
+  function stripHTML(colors) {
+    return colors.map(function (c) { return '<button type="button" style="--c:' + c.hex + ';--ink:' + c.ink + '" data-hex="' + c.hex + '" aria-label="' + (en() ? 'Copy ' : '复制 ') + c.hex + '"></button>'; }).join('');
+  }
+  var toast = document.getElementById('toast');
+  var toastTimer = 0;
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-hex]');
+    if (!b) return;
+    e.stopPropagation();
+    var h = b.dataset.hex;
+    if (navigator.clipboard) navigator.clipboard.writeText(h).catch(function () {});
+    toast.textContent = (en() ? 'Copied ' : '已复制 ') + h;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1400);
+  }, true);
+
+  /* ---------- 首屏：桌上的样张 ---------- */
+  var desk = document.getElementById('desk');
+  var DESK = [
+    { i: 2, left: 6, top: 4, w: 230, r: -9 },
+    { i: 0, left: 30, top: 14, w: 240, r: 4 },
+    { i: 3, left: 50, top: 46, w: 300, r: -3 },
+    { i: 1, left: 64, top: 2, w: 230, r: 8 }
+  ];
+  DESK.forEach(function (d, k) {
+    var wk = WORKS[d.i];
+    var s = document.createElement('div');
+    s.className = 'sheet';
+    s.tabIndex = 0;
+    s.setAttribute('role', 'button');
+    s.dataset.v = 'w-' + d.i;
+    s.style.cssText = 'left:' + d.left + '%;top:' + d.top + '%;width:' + d.w + 'px;rotate:' + d.r + 'deg;z-index:' + (k + 1);
+    s.innerHTML = '<div class="img" style="aspect-ratio:' + wk.w + '/' + wk.h + ';--g:url(' + wk.src + ') center/cover"></div><div class="slug"><span>JOB ' + pad(d.i + 1) + '</span><span>' + wk.tag + '</span></div>';
+    desk.appendChild(s);
+  });
+
+  /* ---------- Malam ---------- */
+  var sw = document.getElementById('ipSwatches');
+  var row = document.getElementById('ipRow');
+  IP.slice(1).forEach(function (p, k) {
+    var t = document.createElement('div');
+    t.className = 'ip-thumb';
+    t.tabIndex = 0;
+    t.setAttribute('role', 'button');
+    t.dataset.v = 'ip-' + (k + 1);
+    t.innerHTML = '<div class="img" style="--g:url(' + p.src + ') center/cover"></div><em></em>';
+    row.appendChild(t);
+  });
+
+  /* ---------- 样张 ---------- */
+  var proofList = document.getElementById('proofList');
+  WORKS.forEach(function (w, i) {
+    var f = document.createElement('figure');
+    f.className = 'proof';
+    if (w.w > w.h) f.style.setProperty('--pw', '560px');
+    f.innerHTML = '<div class="proof-paper" style="--r:' + w.r + 'deg" data-v="w-' + i + '" tabindex="0" role="button">' +
+      '<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>' +
+      (w.stamp ? '<span class="stamp">' + w.stamp + '</span>' : '') +
+      '<div class="art" style="--ar:' + w.w + '/' + w.h + ';--g:url(' + w.src + ') center/cover"></div>' +
+      '<div class="slug"><span>JOB ' + pad(i + 1) + ' · ' + w.tag + '</span><span>' + w.w + ' × ' + w.h + ' PX</span></div>' +
+      '<div class="palette" data-pal="' + i + '"></div></div>' +
+      '<figcaption><small>' + pad(i + 1) + ' · ' + w.tag + '</small><b></b><p></p></figcaption>';
+    proofList.appendChild(f);
+    palette(w.src, 5).then(function (colors) {
+      w.colors = colors;
+      f.querySelector('[data-pal]').innerHTML = stripHTML(colors);
+    });
+  });
+
+  function renderText() {
+    sw.innerHTML = BRAND.map(function (b) {
+      return '<button class="swatch" type="button" data-hex="' + b.hex + '" aria-label="' + (en() ? 'Copy ' : '复制 ') + b.hex + '"><span style="--c:' + b.hex + '"></span><b>' + (en() ? b.en : b.zh) + '</b><code>' + b.hex + '</code></button>';
+    }).join('');
+    all('.ip-thumb', row).forEach(function (t, k) { var p = IP[k + 1]; t.querySelector('em').textContent = pad(k + 2) + ' · ' + (en() ? p.en : p.zh); t.setAttribute('aria-label', en() ? p.en : p.zh); });
+    document.querySelector('.ip-main').setAttribute('aria-label', en() ? IP[0].en : IP[0].zh);
+    all('.proof').forEach(function (f, i) {
+      var t = en() ? WORKS[i].en : WORKS[i].zh;
+      f.querySelector('figcaption b').textContent = t[0];
+      f.querySelector('figcaption p').textContent = t[1];
+      f.querySelector('.proof-paper').setAttribute('aria-label', (en() ? 'View ' : '查看') + t[0]);
+      if (WORKS[i].colors) f.querySelector('[data-pal]').innerHTML = stripHTML(WORKS[i].colors);
+    });
+    all('.sheet', desk).forEach(function (s) { var w = WORKS[s.dataset.v.slice(2)]; s.setAttribute('aria-label', en() ? w.en[0] : w.zh[0]); });
+    desk.setAttribute('aria-label', en() ? 'Proofs on the desk' : '桌上的样张');
+  }
+  renderText();
+  Site.onLang(function () { renderText(); if (viewer.open) show(vi); });
+
+  /* ---------- 大图查看 ---------- */
+  var ITEMS = IP.map(function (p, k) { return { key: 'ip-' + k, ip: k }; }).concat(WORKS.map(function (w, k) { return { key: 'w-' + k, w: k }; }));
+  var viewer = document.getElementById('viewer');
+  var vImg = document.getElementById('vImg');
+  var vi = 0;
+  function show(i, dir) {
+    vi = (i + ITEMS.length) % ITEMS.length;
+    var it = ITEMS[vi], src, tag, title, text, colors = null;
+    if (it.ip != null) {
+      var p = IP[it.ip];
+      src = p.src; tag = 'MALAM · ' + pad(it.ip + 1) + ' / 06'; title = en() ? p.en : p.zh;
+      text = en() ? 'Malam, the Penang Night Cat: an original IP.' : 'Malam 阿夜 · 槟城夜猫，原创 IP 全案。';
+      colors = BRAND.map(function (b) { var n = parseInt(b.hex.slice(1), 16); return { hex: b.hex, ink: ink(n >> 16, (n >> 8) & 255, n & 255) }; });
+    } else {
+      var w = WORKS[it.w], t = en() ? w.en : w.zh;
+      src = w.src; tag = 'JOB ' + pad(it.w + 1) + ' · ' + w.tag; title = t[0]; text = t[1]; colors = w.colors || [];
+    }
+    vImg.style.setProperty('--g', 'url(' + src + ') center/contain no-repeat');
+    vImg.setAttribute('aria-label', title);
+    document.getElementById('vCount').textContent = pad(vi + 1) + ' / ' + pad(ITEMS.length);
+    document.getElementById('vTag').textContent = tag;
+    document.getElementById('vTitle').textContent = title;
+    document.getElementById('vText').textContent = text;
+    document.getElementById('vPalette').innerHTML = stripHTML(colors);
+    if (motion && dir) gsap.fromTo(vImg, { autoAlpha: 0, x: dir * 40 }, { autoAlpha: 1, x: 0, duration: .55, ease: 'power3.out' });
+  }
+  function openKey(key) {
+    var i = 0;
+    ITEMS.forEach(function (it, k) { if (it.key === key) i = k; });
+    show(i, 0);
+    Site.openModal(viewer);
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-v]');
+    if (!t || viewer.contains(t)) return;
+    openKey(t.dataset.v);
+  });
+  document.addEventListener('keydown', function (e) {
+    var t = e.target.closest && e.target.closest('[data-v]');
+    if (t && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openKey(t.dataset.v); }
+  });
+  document.getElementById('vPrev').addEventListener('click', function () { show(vi - 1, -1); });
+  document.getElementById('vNext').addEventListener('click', function () { show(vi + 1, 1); });
+  viewer.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(vi - 1, -1); if (e.key === 'ArrowRight') show(vi + 1, 1); });
+  document.getElementById('vStage').addEventListener('click', function (e) { if (e.target === e.currentTarget) Site.closeModal(viewer); });
+
+  if (!motion) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* 开场：标题升起，样张一张张丢到桌上 */
+  var lines = Site.splitLines(document.querySelector('h1'));
+  gsap.timeline({ defaults: { ease: 'expo.out' } })
+    .from(lines, { yPercent: 110, duration: 1.5 }, .2)
+    .from('.kicker, .hero-line, .cmyk, .cmyk-meta', { autoAlpha: 0, y: 20, duration: 1.1, stagger: .08 }, .45)
+    .from('.cmyk span', { scaleY: 0, transformOrigin: 'bottom', duration: .6, stagger: .03, ease: 'power3.out' }, .8)
+    .from('.sheet', { y: -420, x: function (k) { return (k - 1.5) * 90; }, rotate: function (k) { return (k % 2 ? 1 : -1) * 28; }, autoAlpha: 0, duration: 1.2, stagger: .14, ease: 'power3.out' }, .35)
+    .from('.ruler', { scaleX: 0, transformOrigin: 'left', duration: 1.6 }, 0);
+
+  /* 鼠标在桌上移动时，样张轻微视差 */
+  var sheets = all('.sheet');
+  desk.addEventListener('pointermove', function (e) {
+    var r = desk.getBoundingClientRect();
+    var dx = (e.clientX - r.left) / r.width - .5, dy = (e.clientY - r.top) / r.height - .5;
+    sheets.forEach(function (s, k) { gsap.to(s, { x: dx * (8 + k * 5), y: dy * (8 + k * 5), duration: 1, ease: 'power3.out', overwrite: 'auto' }); });
+  });
+
+  all('.block-head').forEach(function (h) {
+    gsap.from(h.children, { autoAlpha: 0, y: 24, duration: 1.2, stagger: .1, ease: 'expo.out', scrollTrigger: { trigger: h, start: 'top 85%', once: true } });
+  });
+  gsap.from('.ip-main, .ip-card, .swatch, .ip-thumb', { autoAlpha: 0, y: 50, duration: 1.3, stagger: .06, ease: 'expo.out', scrollTrigger: { trigger: '.ip', start: 'top 80%', once: true } });
+  /* 样张像被放到桌上：从上方落下，带一点旋转 */
+  all('.proof').forEach(function (f, i) {
+    gsap.from(f.querySelector('.proof-paper'), { y: 120, rotate: (i % 2 ? 6 : -6), autoAlpha: 0, duration: 1.5, ease: 'expo.out', scrollTrigger: { trigger: f, start: 'top 88%', once: true } });
+    gsap.from(f.querySelector('figcaption'), { autoAlpha: 0, y: 20, duration: 1.2, delay: .25, ease: 'expo.out', scrollTrigger: { trigger: f, start: 'top 88%', once: true } });
+  });
+})();
+</script>
+</body>
+</html>

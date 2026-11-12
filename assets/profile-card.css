@@ -1,0 +1,46 @@
+/* 全息照片卡片（React Bits ProfileCard 的样式，改成只留照片卡，没有底部的联系栏） */
+.profile-card {
+  --pc-light-x: 50%; --pc-light-y: 50%; --pc-pointer-x: 50%; --pc-pointer-y: 50%; --pc-band-x: 50%; --pc-band-y: 50%;
+  --pc-reach: 0; --pc-rotate-x: 0deg; --pc-rotate-y: 0deg; --pc-shift-x: 0px; --pc-shift-y: 0px; --pc-tilt: 0; --pc-active: 0;
+  position: relative; width: 100%; perspective: 1000px; touch-action: pan-y; -webkit-tap-highlight-color: transparent;
+}
+.profile-card__body {
+  position: relative; display: flex; flex-direction: column; padding: 6px; border-radius: calc(var(--pc-radius) + 6px);
+  background: var(--pc-frame); box-shadow: var(--pc-frame-shadow);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
+  transform: rotateX(var(--pc-rotate-x)) rotateY(var(--pc-rotate-y)); will-change: transform;
+}
+.profile-card__tile { position: relative; aspect-ratio: 4 / 5; border-radius: var(--pc-radius); background: var(--pc-backdrop); box-shadow: var(--pc-tile-shadow); overflow: hidden; isolation: isolate; }
+.profile-card__sheen, .profile-card__holo, .profile-card__scrim, .profile-card__tile-rim, .profile-card__glare, .profile-card__shade, .profile-card__rim {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+}
+.profile-card__sheen { background: radial-gradient(farthest-corner circle at calc(var(--pc-light-x) - 10px) calc(var(--pc-light-y) - 10px), var(--pc-sheen) 0%, transparent 55%); opacity: calc(var(--pc-holo) * var(--pc-active)); }
+.profile-card__holo {
+  --pc-spectrum: repeating-linear-gradient(0deg, hsl(2, 100%, 73%) 5%, hsl(53, 100%, 69%) 10%, hsl(93, 100%, 69%) 15%, hsl(176, 100%, 76%) 20%, hsl(228, 100%, 74%) 25%, hsl(260, 100%, 76%) 30%, hsl(2, 100%, 73%) 35%);
+  --pc-bars: repeating-linear-gradient(-45deg, #0e152e 0%, hsl(180, 10%, 60%) 3.8%, hsl(180, 29%, 66%) 4.5%, hsl(180, 10%, 60%) 5.2%, #0e152e 10%, #0e152e 12%);
+  --pc-falloff: radial-gradient(farthest-corner circle at var(--pc-pointer-x) var(--pc-pointer-y), hsla(0, 0%, 0%, 0.1) 12%, hsla(0, 0%, 0%, 0.15) 20%, hsla(0, 0%, 0%, 0.25) 120%);
+  z-index: 2;
+  background-image: var(--pc-spectrum), var(--pc-bars), var(--pc-falloff);
+  background-position: 0 var(--pc-band-y), var(--pc-band-x) var(--pc-band-y), center;
+  background-size: 500% 500%, 300% 300%, 200% 200%;
+  background-blend-mode: color, hard-light;
+  mix-blend-mode: var(--pc-blend);
+  filter: brightness(calc(0.66 + 0.19 * var(--pc-active))) contrast(calc(1.33 + 0.17 * var(--pc-active))) saturate(calc(0.33 + 0.17 * var(--pc-active))) var(--pc-holo-filter);
+  opacity: calc(var(--pc-holo) * var(--pc-holo-gain) * var(--pc-active));
+  -webkit-mask-image: var(--pc-pattern); -webkit-mask-size: var(--pc-pattern-size); -webkit-mask-repeat: repeat;
+  mask-image: var(--pc-pattern); mask-size: var(--pc-pattern-size); mask-repeat: repeat;
+}
+.profile-card__holo-glow, .profile-card__holo-shift { position: absolute; inset: 0; opacity: calc(var(--pc-active) * var(--pc-holo-detail)); }
+.profile-card__holo-shift { background-image: var(--pc-spectrum), var(--pc-bars), var(--pc-falloff); background-size: 200% 300%, 700% 700%, 100% 100%; background-blend-mode: color, hard-light; mix-blend-mode: difference; filter: brightness(0.8) contrast(1.5); }
+.profile-card__photo {
+  position: absolute; inset: calc(var(--pc-parallax) * -1); width: calc(100% + var(--pc-parallax) * 2); height: calc(100% + var(--pc-parallax) * 2);
+  object-fit: cover; object-position: center 25%; transform: translate3d(var(--pc-shift-x), var(--pc-shift-y), 0); pointer-events: none; user-select: none; -webkit-user-select: none;
+}
+.profile-card__scrim { z-index: 3; background: linear-gradient(to top, rgba(0,0,0,.62) 0%, rgba(0,0,0,.4) 18%, rgba(0,0,0,.12) 34%, rgba(0,0,0,0) 48%); }
+.profile-card__info { position: absolute; z-index: 4; left: 10px; right: 10px; bottom: 9px; color: #fff; }
+.profile-card__name { margin: 0; font-family: var(--display); font-size: 19px; font-weight: 400; line-height: 1.1; letter-spacing: .03em; color: inherit; }
+.profile-card__title { margin: 2px 0 0; font-size: 10.5px; line-height: 1.4; color: rgba(255, 255, 255, .8); }
+.profile-card__tile-rim { z-index: 5; box-shadow: inset 0 0 0 1px var(--pc-tile-edge), inset 0 1px 0 var(--pc-tile-highlight); }
+.profile-card__glare { z-index: 6; background: radial-gradient(farthest-corner circle at var(--pc-light-x) var(--pc-light-y), rgba(255,255,255,.8) 0%, rgba(255,255,255,.36) 20%, rgba(255,255,255,0) 60%); mix-blend-mode: overlay; opacity: calc(var(--pc-glare) * var(--pc-active)); }
+.profile-card__shade { z-index: 6; background: radial-gradient(farthest-corner circle at var(--pc-light-x) var(--pc-light-y), transparent 30%, var(--pc-shade) 100%); opacity: calc(var(--pc-glare) * var(--pc-tilt)); }
+.profile-card__rim { z-index: 7; box-shadow: inset 0 0 0 1px var(--pc-frame-edge), inset 0 1px 0 var(--pc-frame-highlight); }
