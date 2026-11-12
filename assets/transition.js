@@ -139,7 +139,7 @@
     photo: { kind: 'polaroid', left: ['photo-portrait-suit', 'photo-island', 'photo-blossom'], right: ['photo-temple', 'photo-latte', 'photo-sunset'], dir: 'works' },
     design: { kind: 'poster', left: ['works/design-code-poster', 'works/design-macaron', 'ip/malam-01-cover'], right: ['works/design-sushi-menu', 'works/design-wms-ad', 'ip/malam-04-stickers'] },
     film: { kind: 'frame', left: ['film/addiction-poster', 'film/addiction-still-1', 'film/mv-still-1'], right: ['film/mv-poster', 'film/addiction-still-3', 'film/mv-still-3'] },
-    code: { kind: 'window', left: ['works/night-stall-cover', '#code1', '#code2'], right: ['#code3', 'works/portfolio-home', '#code4'] }
+    code: { kind: 'window', left: ['works/penang-walk-cover', '#code1', '#code2'], right: ['#code3', 'works/portfolio-home', '#code4'] }
   };
   var CODE = {
     code1: ["const city = new City(15)", "city.build('mall')", "city.build('temple')", "city.night()"],

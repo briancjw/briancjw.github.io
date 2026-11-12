@@ -8,7 +8,7 @@
     { id: 'photo', href: 'photography.html', no: '01', zh: '摄影', en: 'Photography', subZh: '暗房 · 人像、风景、静物', subEn: 'Darkroom · portraits, landscapes, still life', img: 'assets/works/photo-temple.jpg' },
     { id: 'design', href: 'design.html', no: '02', zh: '设计', en: 'Design', subZh: '样张 · 海报、原创 IP、社媒', subEn: 'Proofs · posters, original IP, social', img: 'assets/works/design-macaron.jpg' },
     { id: 'film', href: 'film.html', no: '03', zh: '影像', en: 'Film', subZh: '放映厅 · MV 与剧情短片', subEn: 'Screening room · MV & short films', img: 'assets/film/addiction-poster.jpg' },
-    { id: 'code', href: 'vibe-coding.html', no: '04', zh: 'Vibe Coding', en: 'Vibe Coding', subZh: '终端 · 用 AI 编程做的网页与 3D', subEn: 'Terminal · web & 3D built with AI', img: 'assets/works/night-stall-cover.jpg' }
+    { id: 'code', href: 'vibe-coding.html', no: '04', zh: 'Vibe Coding', en: 'Vibe Coding', subZh: '终端 · 用 AI 编程做的网页与 3D', subEn: 'Terminal · web & 3D built with AI', img: 'assets/works/penang-walk-cover.jpg' }
   ];
   var HOME = { id: 'home', href: 'index.html', zh: '回到主页', en: 'Back to home', img: 'assets/works/portfolio-home.jpg' };
   function nextLabel(n) {

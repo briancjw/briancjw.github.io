@@ -76,6 +76,8 @@
   .panel h3 { margin: 0 0 6px; font-size: 20px; font-weight: 500; color: #fff; }
   .panel .sub { margin: 0 0 14px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
   .panel p { margin: 0 0 12px; }
+  .panel .newtab { display: inline-block; padding: 6px 12px; border: 1px solid rgba(242, 214, 124, .45); border-radius: 999px; color: var(--accent); font-family: var(--mono); font-size: 12px; text-decoration: none; transition: background .25s; }
+  .panel .newtab:hover, .panel .newtab:focus-visible { background: rgba(242, 214, 124, .12); outline: none; }
   .prompt { position: relative; margin: 0 0 12px; padding: 10px 12px 10px 14px; border-left: 2px solid var(--accent); background: rgba(242, 214, 124, .05); border-radius: 0 6px 6px 0; font-size: 13px; color: #f1ecdf; }
   .prompt b { display: block; margin-bottom: 6px; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .08em; color: var(--accent); }
   .prompt small { display: block; margin-top: 4px; font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
@@ -171,33 +173,34 @@
 
     <article class="win app" id="app1">
       <div class="view" id="stallView">
-        <div class="cover" style="--g:url(assets/works/night-stall-cover.jpg) center/cover"></div>
-        <button class="run" type="button" id="runStall"><span>▶</span><span data-i18n="run">运行 3D 场景</span><kbd>↵</kbd></button>
+        <div class="cover" style="--g:url(assets/works/penang-walk-cover.jpg) center/cover"></div>
+        <button class="run" type="button" id="runStall"><span>▶</span><span data-i18n="run">运行 3D 小游戏</span><kbd>↵</kbd></button>
       </div>
       <div class="side">
-        <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span><span data-i18n="file1">night-stall / index.html</span></div>
+        <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span><span data-i18n="file1">penang-walk / index.html</span></div>
         <div class="tabs" role="tablist" data-tabs>
           <button type="button" role="tab" aria-selected="true" data-tab="0">ABOUT</button>
           <button type="button" role="tab" aria-selected="false" data-tab="1">PROMPTS</button>
           <button type="button" role="tab" aria-selected="false" data-tab="2">STACK</button>
         </div>
         <div class="panel" role="tabpanel">
-          <h3 data-i18n="a1Title">阿夜的槟城夜宵摊</h3>
-          <p class="sub">THREE.JS · 3D INTERACTIVE</p>
-          <p data-i18n="a1About">乔治市老店屋转角的炒粿条夜宵摊，延续 Malam 阿夜的世界观。可以拖动视角、滚轮缩放、切换白天和夜晚、开关雨天；点一下阿夜和小摊还会说话。</p>
-          <p data-i18n="a1Role">我负责场景构思和美术方向：参考店屋立面、五脚基走廊、娘惹花砖和路边小摊，定下低多边形风格与夜色配色，再让 AI 编程工具把模型、灯光、雨和互动做出来。</p>
+          <h3 data-i18n="a1Title">阿夜游槟城</h3>
+          <p class="sub">THREE.JS · 3D MINI GAME</p>
+          <p data-i18n="a1About">以乔治市牛干冬街为舞台的第三人称 3D 小游戏。操控阿夜在雨夜的老街散步，走进南洋茶室跟橘猫老板点餐、坐下来吃、拍照打卡成明信片，一路收集 8 样槟城美食。</p>
+          <p data-i18n="a1Role">我负责玩法构思和美术方向：参考店屋立面、五脚基走廊、娘惹花砖、老茶室和路边小摊，定下卡通描边的画风和雨夜配色，设计点餐、坐下、打卡和美食图鉴的玩法，再让 AI 编程工具把场景、角色和互动做出来。</p>
+          <p><a class="newtab" href="projects/penang-walk/index.html" target="_blank" rel="noopener" data-i18n="a1Open">在新窗口全屏玩 ↗</a></p>
         </div>
         <div class="panel" role="tabpanel" hidden data-i18n="a1Prompts">
-          <div class="prompt"><b>01 · 场景与风格</b>用 Three.js（r160）做一个能直接在网页里运行的 3D 微缩场景：槟城乔治市老店屋转角的炒粿条夜宵摊。低多边形（low-poly）微缩模型风格，整组场景放在镶着娘惹花砖的方形底座上，镜头采用斜俯视的等角视角。</div>
-          <div class="prompt"><b>02 · 场景内容</b>两间相连的海峡殖民地风格店屋：不同的墙色、木百叶窗、五脚基拱廊、红瓦屋顶和中英文招牌，屋檐与窗台垂下九重葛。街角放一个炒粿条小摊（遮篷、玻璃柜、炭炉与炒锅、冒出的热气）、折叠桌和塑料凳。原创角色 Malam 阿夜（深夜蓝胖猫、白袜、额头月牙、尾巴挂小灯笼）坐在桌边吃宵夜。再加上路灯、脚车、墙上壁画和斑马线。</div>
-          <div class="prompt"><b>03 · 灯光与天气</b>夜晚：灯笼、招牌和窗户发出暖光，用 UnrealBloom 做柔和光晕；下雨时加入雨丝、地面涟漪和湿路面的灯光倒影。白天：晴天、不下雨，天光柔和、阴影清楚。日夜切换要平滑过渡。</div>
-          <div class="prompt"><b>04 · 互动与性能</b>OrbitControls 拖动旋转、滚轮缩放，并限制俯仰角，避免看到底座下方。点击阿夜或小摊会跳出对话气泡，阿夜还会轻轻跳一下。提供“切换白天 / 下雨 / 自动旋转 / 重置视角”按钮。只用程序生成的几何体和 Canvas 贴图，不依赖外部模型；手机上限制像素比，维持流畅帧率；网址加 ?lang=en 时显示英文界面。</div>
+          <div class="prompt"><b>01 · 玩法与风格</b>用 Three.js（r160）做一个直接在网页里运行的第三人称 3D 小游戏「阿夜游槟城」：玩家操控原创角色 Malam 阿夜，在雨夜的槟城乔治市牛干冬街散步。画风用卡通着色加深色描边（toon shading + outline），暗部不要压太黑、整体亮度适中，不用光晕和镜面反光。</div>
+          <div class="prompt"><b>02 · 场景内容</b>一条两边都是海峡殖民地风格店屋的老街：不同墙色、木百叶窗、五脚基走廊和娘惹花砖地板、红灯笼、直招牌、冷气机、晒衣竿、横过马路的电线、墙面水渍。路边停着摩托车、老式小汽车和插花的三轮车，还有消防栓、水沟盖和积水。一楼可以走进去的「南洋茶室」有大理石圆桌、木椅、花砖柜台、铜咖啡壶、吊扇和手写菜单，柜台后站着穿白背心的橘猫老板。远处有 KOMTAR 和月牙。</div>
+          <div class="prompt"><b>03 · 角色与天气</b>阿夜是深夜蓝的 Q 版猫：圆头、琥珀色大眼、额头月牙、娘惹花砖领巾、尾巴挂着小灯笼。走路时手脚摆动，尾巴只轻轻晃。下雨走到外面时，头上的小雨帽会像花瓣一样展开，进到走廊或店里就收起来。可以切换白天和夜晚、开关下雨。</div>
+          <div class="prompt"><b>04 · 互动与操作</b>电脑用 WASD 走路、Shift 跑步、拖动鼠标转镜头；手机用左下摇杆。第三人称镜头跟在阿夜身后，碰到墙或进到茶室会自动拉近。靠近东西会出现提示：跟老板点餐（菜单可多选，菜一样一样端上桌）、炒粿条摊、贩卖机；茶室的椅子可以坐，坐下后拍照打卡，生成可下载的明信片；收集 8 样美食的图鉴。只用程序生成的几何体和 Canvas 贴图，网址加 ?lang=en 时显示英文。</div>
         </div>
         <div class="panel" role="tabpanel" hidden>
           <dl class="kv">
             <dt>ENGINE</dt><dd>Three.js 0.160 · WebGL</dd>
-            <dt>LOOK</dt><dd>UnrealBloom · RoomEnvironment</dd>
-            <dt>FX</dt><dd data-i18n="a1Fx">雨滴、涟漪、湿路面倒影、热气</dd>
+            <dt>LOOK</dt><dd>MeshToonMaterial · OutlineEffect</dd>
+            <dt>FX</dt><dd data-i18n="a1Fx">雨滴、涟漪、积水、锅气、会展开的雨帽</dd>
             <dt>BUILT WITH</dt><dd>Claude Code</dd>
           </dl>
         </div>
@@ -219,15 +222,16 @@
     kicker: '04 · TERMINAL',
     line: 'I’m not an engineer by training. I bring the ideas, the taste and every decision; AI turns them into code. This page holds work made that way, one sentence at a time.',
     appsKicker: '~/projects', appsTitle: 'Running projects', appsNote: 'Open and run it right here', replay: 'Rebuild', isoHint: 'Drag to rotate', noteMain: 'Move your mouse onto this little city', noteSub: 'Watch it grow one line of code at a time, and drag to spin it around',
-    run: 'Run the 3D scene', file1: 'night-stall / index.html',
-    a1Title: 'Malam’s Penang Supper Stall',
-    a1About: 'A char koay teow supper stall on an old George Town street corner, set in Malam’s world. Drag to orbit, scroll to zoom, switch between day and night and toggle the rain; click Malam or the stall and they talk.',
-    a1Role: 'I led the concept and art direction: shophouse facades, five-foot ways, Peranakan tiles and roadside stalls set the low-poly style and night palette, then AI coding tools built the models, lighting, rain and interactions.',
-    a1Prompts: '<div class="prompt"><b>01 · SCENE &amp; STYLE</b>Build a 3D miniature scene with Three.js (r160) that runs directly in the browser: a char koay teow supper stall on an old shophouse street corner in George Town, Penang. Low-poly miniature style, the whole scene set on a square base trimmed with Peranakan tiles, viewed from an angled isometric camera.</div>' +
-      '<div class="prompt"><b>02 · CONTENT</b>Two joined Straits-style shophouses: different wall colours, timber shutters, five-foot-way arches, red clay-tile roofs and bilingual signboards, with bougainvillea trailing from the eaves and window boxes. On the corner, a char koay teow stall (awning, glass cabinet, charcoal stove and wok, rising steam), folding tables and plastic stools. The original character Malam (a chubby midnight-blue cat with white socks, a crescent on its forehead and a small lantern on its tail) sits at a table eating supper. Add a street lamp, a bicycle, a wall mural and a zebra crossing.</div>' +
-      '<div class="prompt"><b>03 · LIGHTING &amp; WEATHER</b>Night: lanterns, signs and windows glow warm, with a soft UnrealBloom halo; when it rains, add rain streaks, ripples on the ground and light reflections on the wet road. Day: clear sky with no rain, soft daylight and crisp shadows. Day and night should blend smoothly.</div>' +
-      '<div class="prompt"><b>04 · INTERACTION &amp; PERFORMANCE</b>OrbitControls to drag and rotate and scroll to zoom, with the vertical angle limited so the underside of the base never shows. Clicking Malam or the stall pops up a speech bubble, and Malam gives a little hop. Provide Daytime / Rain / Auto-rotate / Reset view buttons. Use only procedural geometry and Canvas textures with no external models; cap the pixel ratio on phones to keep the frame rate smooth; show an English interface when the URL has ?lang=en.</div>',
-    a1Fx: 'Rain, ripples, wet-road reflections, steam'
+    run: 'Run the 3D game', file1: 'penang-walk / index.html',
+    a1Title: 'Malam in Penang',
+    a1About: 'A third-person 3D mini game set on Lebuh Chulia, George Town. Walk Malam down an old street on a rainy night, order from the tabby-cat boss at Nanyang Kopitiam, sit down to eat, snap a postcard, and collect 8 Penang treats along the way.',
+    a1Role: 'I led the gameplay concept and art direction: shophouse facades, five-foot ways, Peranakan tiles, old kopitiams and roadside stalls set the cel-shaded look and rainy-night palette; I designed the ordering, seating, check-in and food-log mechanics, then AI coding tools built the scene, character and interactions.',
+    a1Open: 'Play full screen in a new tab ↗',
+    a1Prompts: '<div class="prompt"><b>01 · GAMEPLAY &amp; STYLE</b>Build a third-person 3D mini game with Three.js (r160) that runs directly in the browser, called “Malam in Penang”: the player controls the original character Malam on a walk down Lebuh Chulia in George Town, Penang, on a rainy night. Use toon shading with dark outlines; keep the shadows from going too dark and the overall brightness moderate, with no bloom or mirror-like reflections.</div>' +
+      '<div class="prompt"><b>02 · CONTENT</b>An old street lined on both sides with Straits-style shophouses: different wall colours, timber shutters, five-foot ways with Peranakan floor tiles, red lanterns, vertical signboards, air-conditioner units, laundry poles, overhead wires across the road and rain-stained walls. Motorbikes, a vintage car and a flower-decked trishaw parked along the kerb, plus fire hydrants, drain grates and puddles. A walk-in “Nanyang Kopitiam” on the ground floor with marble tables, bentwood chairs, a tiled counter, copper coffee urns, ceiling fans and a hand-written menu, with a tabby-cat boss in a white singlet behind the counter. KOMTAR and a crescent moon in the distance.</div>' +
+      '<div class="prompt"><b>03 · CHARACTER &amp; WEATHER</b>Malam is a chibi midnight-blue cat: round head, big amber eyes, a crescent on the forehead, a Peranakan-tile bandana and a small lantern on the tail. Arms and legs swing when walking; the tail only sways gently. When it rains and she steps outside, a little rain hat on her head unfolds like petals, and folds back up under the arcade or indoors. Day/night and rain can be toggled.</div>' +
+      '<div class="prompt"><b>04 · INTERACTION &amp; CONTROLS</b>WASD to walk, Shift to run, drag the mouse to turn the camera; a joystick in the bottom-left on phones. The third-person camera follows behind Malam and pulls in when it hits a wall or goes inside the kopitiam. Prompts appear near things you can use: order from the boss (multi-select menu, dishes arrive at the table one by one), the char koay teow stall and the vending machine. Kopitiam chairs can be sat on, and once seated you can snap a check-in photo that becomes a downloadable postcard. A food log tracks 8 treats. Use only procedural geometry and Canvas textures; show English when the URL has ?lang=en.</div>',
+    a1Fx: 'Rain, ripples, puddles, wok steam, an unfolding rain hat'
   };
 </script>
 <script src="assets/site.js"></script>
@@ -253,8 +257,8 @@
   var frame = null;
   document.getElementById('runStall').addEventListener('click', function () {
     frame = document.createElement('iframe');
-    frame.title = en() ? 'Malam’s Penang Supper Stall' : '阿夜的槟城夜宵摊';
-    frame.src = 'projects/night-stall/index.html' + (en() ? '?lang=en' : '');
+    frame.title = en() ? 'Malam in Penang' : '阿夜游槟城';
+    frame.src = 'projects/penang-walk/index.html' + (en() ? '?lang=en' : '');
     frame.setAttribute('allow', 'fullscreen');
     view.appendChild(frame);
     view.classList.add('live');
